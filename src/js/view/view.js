@@ -71,6 +71,7 @@ function View(_api, _model) {
 
     const _playerElement = createElement(playerTemplate(_model.get('id'), _model.get('localization').player));
     const _videoLayer = _playerElement.querySelector('.jw-media');
+    const _gradientLayer = _playerElement.querySelector('.jw-gradient');
 
     const _preview = new Preview(_model);
     const _title = new Title(_model);
@@ -214,7 +215,7 @@ function View(_api, _model) {
         // captions rendering
         _captionsRenderer.setup(_playerElement.id, _model.get('captions'));
 
-        // captions should be place behind controls, and not hidden when controls are hidden
+        // captions should be placed behind controls, and not hidden when controls are hidden
         _playerElement.insertBefore(_captionsRenderer.element(), _title.element());
 
         // Display Click and Double Click Handling
@@ -746,6 +747,7 @@ function View(_api, _model) {
         _instreamModel.on('change:controls', _onChangeControls, this);
         _instreamModel.on('change:state', _stateHandler, this);
 
+        _playerElement.insertBefore(_gradientLayer, _controls.element());
         addClass(_playerElement, 'jw-flag-ads');
         removeClass(_playerElement, 'jw-flag-live');
 
@@ -777,6 +779,7 @@ function View(_api, _model) {
         }
 
         this.setAltText('');
+        _playerElement.insertBefore(_gradientLayer, _preview.element());
         removeClass(_playerElement, ['jw-flag-ads', 'jw-flag-ads-hide-controls']);
         _model.set('hideAdsControls', false);
         const provider = _model.getVideo();
